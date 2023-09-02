@@ -14,9 +14,8 @@ data class ResultDto(
     val name: String,
     @SerialName("status")
     val status: String,
-){
-    fun toCharacterInfo():CharacterInfo{
+) {
+    fun toCharacterInfo(): CharacterInfo {
         return CharacterInfo(id, image, name, status)
     }
 }
-

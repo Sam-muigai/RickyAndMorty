@@ -3,10 +3,11 @@ package com.samkt.rickyandmorty
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.samkt.rickyandmorty.di.viewModelFactory
-import com.samkt.rickyandmorty.screens.homeScreen.HomeScreen
-import com.samkt.rickyandmorty.screens.homeScreen.HomeScreenViewModel
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import com.samkt.rickyandmorty.screens.navigation.MyApp
 import com.samkt.rickyandmorty.ui.theme.RickyAndMortyTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,12 +15,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RickyAndMortyTheme {
-                val viewModel = viewModel<HomeScreenViewModel>(
-                    factory = viewModelFactory {
-                        HomeScreenViewModel(RickyAndMortyApplication.app.provideRickyAndMortyRepository())
-                    },
-                )
-                HomeScreen(viewModel = viewModel)
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MyApp()
+                }
             }
         }
     }

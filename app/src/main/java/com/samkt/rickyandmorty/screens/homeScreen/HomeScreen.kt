@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -31,11 +32,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.samkt.rickyandmorty.R
 import com.samkt.rickyandmorty.domain.model.CharacterInfo
 import com.samkt.rickyandmorty.screens.homeScreen.components.CharacterCard
+import com.samkt.rickyandmorty.screens.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenViewModel,
+    navController: NavHostController
 ) {
     val characters = viewModel.characters.collectAsLazyPagingItems()
     Scaffold(
@@ -43,9 +46,11 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text(text = "Characters") },
                 actions = {
-                    IconButton(onClick = {
-                        // TODO: Add navigation to search screen
-                    }) {
+                    IconButton(
+                        onClick = {
+                            // TODO: Add navigation to search screen
+                        },
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Search",
@@ -72,6 +77,9 @@ fun HomeScreen(
                     ListCharacters(
                         characters = characters,
                         loadingNextItem = loadMoreItems,
+                        onCharacterClick = {id ->
+                            navController.navigate(Screens.CharacterScreen.route + "?id=$id")
+                        }
                     )
                 }
             }
@@ -83,6 +91,7 @@ fun HomeScreen(
 fun ListCharacters(
     characters: LazyPagingItems<CharacterInfo>,
     loadingNextItem: Boolean,
+    onCharacterClick: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -95,9 +104,10 @@ fun ListCharacters(
             ) { index ->
                 val item = characters[index]
                 item?.let {
-                    CharacterCard(characterInfo = it) {
-                        // TODO: Navigate to character Screen
-                    }
+                    CharacterCard(
+                        characterInfo = it,
+                        onCharacteClick = onCharacterClick,
+                    )
                 }
             }
             if (loadingNextItem) {

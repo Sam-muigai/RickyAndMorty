@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.samkt.rickyandmorty.domain.model.CharacterInfo
-import com.samkt.rickyandmorty.domain.repository.RickyAndMortyRepository
+import com.samkt.rickyandmorty.domain.repository.CharactersRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class HomeScreenViewModel(
-    private val repository: RickyAndMortyRepository,
+    private val repository: CharactersRepository,
 ) : ViewModel() {
 
     private var _characters = MutableStateFlow<PagingData<CharacterInfo>>(PagingData.empty())
