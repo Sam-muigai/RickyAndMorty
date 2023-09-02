@@ -87,4 +87,7 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // Lottie animation
+    implementation("com.airbnb.android:lottie-compose:6.0.1")
 }

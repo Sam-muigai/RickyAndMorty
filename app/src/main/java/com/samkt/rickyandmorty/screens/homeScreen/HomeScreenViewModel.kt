@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class HomeScreenViewModel(
     private val repository: RickyAndMortyRepository,
@@ -28,7 +27,6 @@ class HomeScreenViewModel(
         viewModelScope.launch {
             repository.getAllCharacters().cachedIn(this).collectLatest {
                 _characters.value = it
-                Timber.d(it.toString())
             }
         }
     }

@@ -31,6 +31,7 @@ import com.samkt.rickyandmorty.domain.model.CharacterInfo
 fun CharacterCard(
     modifier: Modifier = Modifier,
     characterInfo: CharacterInfo,
+    onCharacteClick: (Int) -> Unit,
 ) {
     val context = LocalContext.current
     val color = when (characterInfo.status) {
@@ -39,7 +40,9 @@ fun CharacterCard(
         else -> Color.Green
     }
     Surface(
-        modifier = modifier.width(120.dp).padding(8.dp).clickable { },
+        modifier = modifier.width(120.dp).padding(8.dp).clickable {
+            onCharacteClick.invoke(characterInfo.id)
+        },
         shape = RoundedCornerShape(8.dp),
         color = Color(0xFF47aec4),
     ) {

@@ -16,7 +16,7 @@ class RickyAndMortyRepositoryImpl(
     private val api: RickyAndMortyApi,
 ) : RickyAndMortyRepository {
     override suspend fun getAllCharacters(): Flow<PagingData<CharacterInfo>> {
-        Log.d("Fetching","Repository called")
+        Timber.tag("Fetching").d("Repository called")
         return Pager(
             config = PagingConfig(ITEMS_PER_PAGE),
             pagingSourceFactory = {
