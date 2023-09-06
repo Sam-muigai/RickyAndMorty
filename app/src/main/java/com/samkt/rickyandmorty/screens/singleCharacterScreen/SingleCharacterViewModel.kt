@@ -3,7 +3,7 @@ package com.samkt.rickyandmorty.screens.singleCharacterScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.samkt.rickyandmorty.domain.model.CharacterInfo
-import com.samkt.rickyandmorty.domain.repository.SingleCharacterRepository
+import com.samkt.rickyandmorty.domain.repository.CharactersRepository
 import com.samkt.rickyandmorty.util.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SingleCharacterViewModel(
-    private val repository: SingleCharacterRepository,
+    private val repository: CharactersRepository,
 ) : ViewModel() {
     private var _singleCharacterScreenState = MutableStateFlow(SingleCharacterScreenStates())
     val singleCharacterScreenStates: StateFlow<SingleCharacterScreenStates>

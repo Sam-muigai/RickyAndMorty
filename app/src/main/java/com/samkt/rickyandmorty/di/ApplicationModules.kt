@@ -3,9 +3,9 @@ package com.samkt.rickyandmorty.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.samkt.rickyandmorty.data.remote.RickyAndMortyApi
 import com.samkt.rickyandmorty.data.repository.CharactersRepositoryImpl
-import com.samkt.rickyandmorty.data.repository.SingleCharacterRepositoryImpl
+import com.samkt.rickyandmorty.data.repository.LocationRepositoryImpl
 import com.samkt.rickyandmorty.domain.repository.CharactersRepository
-import com.samkt.rickyandmorty.domain.repository.SingleCharacterRepository
+import com.samkt.rickyandmorty.domain.repository.LocationRepository
 import com.samkt.rickyandmorty.util.Constants.BASE_URL
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -17,7 +17,7 @@ interface AppModule {
 
     fun charactersRepository(): CharactersRepository
 
-    fun singleCharacterRepository(): SingleCharacterRepository
+    fun locationRepository():LocationRepository
 }
 
 class AppModuleImplementation : AppModule {
@@ -38,8 +38,8 @@ class AppModuleImplementation : AppModule {
         return CharactersRepositoryImpl(rickyAndMortyApi())
     }
 
-    override fun singleCharacterRepository(): SingleCharacterRepository {
-        return SingleCharacterRepositoryImpl(rickyAndMortyApi())
+    override fun locationRepository(): LocationRepository {
+        return LocationRepositoryImpl(rickyAndMortyApi())
     }
 
 }

@@ -38,7 +38,8 @@ import com.samkt.rickyandmorty.screens.navigation.Screens
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenViewModel,
-    navController: NavHostController
+    onCharacterClick: (Int) -> Unit,
+    onSearchClicked:()->Unit
 ) {
     val characters = viewModel.characters.collectAsLazyPagingItems()
     Scaffold(
@@ -47,9 +48,7 @@ fun HomeScreen(
                 title = { Text(text = "Characters") },
                 actions = {
                     IconButton(
-                        onClick = {
-                            // TODO: Add navigation to search screen
-                        },
+                        onClick = onSearchClicked,
                     ) {
                         Icon(
                             imageVector = Icons.Default.Search,
@@ -77,9 +76,7 @@ fun HomeScreen(
                     ListCharacters(
                         characters = characters,
                         loadingNextItem = loadMoreItems,
-                        onCharacterClick = {id ->
-                            navController.navigate(Screens.CharacterScreen.route + "?id=$id")
-                        }
+                        onCharacterClick = onCharacterClick,
                     )
                 }
             }

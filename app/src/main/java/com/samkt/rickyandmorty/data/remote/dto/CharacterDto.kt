@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResultDto(
+data class CharacterDto(
     @SerialName("id")
     val id: Int,
     @SerialName("image")

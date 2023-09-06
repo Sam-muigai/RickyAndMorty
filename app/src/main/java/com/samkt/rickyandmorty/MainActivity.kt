@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.samkt.rickyandmorty.screens.navigation.MyApp
+import com.samkt.rickyandmorty.screens.navigation.App
+import com.samkt.rickyandmorty.screens.navigation.ApplicationHomeScreen
 import com.samkt.rickyandmorty.ui.theme.RickyAndMortyTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,9 +18,9 @@ class MainActivity : ComponentActivity() {
             RickyAndMortyTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
-                    MyApp()
+                    App()
                 }
             }
         }

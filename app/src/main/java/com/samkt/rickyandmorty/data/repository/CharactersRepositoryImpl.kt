@@ -8,7 +8,10 @@ import com.samkt.rickyandmorty.data.remote.RickyAndMortyApi
 import com.samkt.rickyandmorty.domain.model.CharacterInfo
 import com.samkt.rickyandmorty.domain.repository.CharactersRepository
 import com.samkt.rickyandmorty.util.Constants.ITEMS_PER_PAGE
+import com.samkt.rickyandmorty.util.Result
+import com.samkt.rickyandmorty.util.safeApiCall
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class CharactersRepositoryImpl(
@@ -23,4 +26,50 @@ class CharactersRepositoryImpl(
             },
         ).flow
     }
+
+    override fun getSingleCharacter(id: Int): Flow<Result<CharacterInfo>> {
+        return flow {
+            emit(
+                safeApiCall {
+                    api.getSingleCharacter(id).toCharacterInfo()
+                },
+            )
+        }
+    }
+
+    override fun getCharacterByName(name: String): Flow<Result<List<CharacterInfo>>> = flow {
+        emit(
+            safeApiCall {
+                api.getCharactersByName(name).results.map { it.toCharacterInfo() }
+            },
+        )
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,8 @@
 package com.samkt.rickyandmorty.data.remote
 
-import com.samkt.rickyandmorty.data.remote.dto.ResultDto
+import com.samkt.rickyandmorty.data.remote.dto.CharacterDto
+import com.samkt.rickyandmorty.data.remote.dto.LocationResponseDto
 import com.samkt.rickyandmorty.data.remote.dto.RickyAndMortyApiResponseDto
-import com.samkt.rickyandmorty.domain.model.CharacterInfo
-import com.samkt.rickyandmorty.util.Result
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -17,5 +16,15 @@ interface RickyAndMortyApi {
     @GET("character/{id}")
     suspend fun getSingleCharacter(
         @Path("id") id: Int,
-    ): ResultDto
+    ): CharacterDto
+
+    @GET("location")
+    suspend fun getLocations(
+        @Query("page") page: Int,
+    ): LocationResponseDto
+
+    @GET("character")
+    suspend fun getCharactersByName(
+        @Query("name") name: String,
+    ): RickyAndMortyApiResponseDto
 }
