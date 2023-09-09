@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,11 +40,11 @@ import com.samkt.rickyandmorty.screens.singleCharacterScreen.SingleCharacterView
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationHomeScreen(
-    onSearchClicked: () -> Unit
+    onSearchClicked: () -> Unit,
 ) {
     val navController = rememberNavController()
 
-    var navigationSelectedItem by remember {
+    var navigationSelectedItem by rememberSaveable {
         mutableIntStateOf(0)
     }
     Scaffold(
@@ -84,7 +84,7 @@ fun ApplicationHomeScreen(
         ) {
             destination("characters") {
                 CharacterScreen(
-                    onSearchClicked = onSearchClicked
+                    onSearchClicked = onSearchClicked,
                 )
             }
             destination("location") {
@@ -100,7 +100,7 @@ fun ApplicationHomeScreen(
 
 @Composable
 fun CharacterScreen(
-    onSearchClicked:()->Unit
+    onSearchClicked: () -> Unit,
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.CharacterScreen.route) {
@@ -115,7 +115,7 @@ fun CharacterScreen(
                 onCharacterClick = { id ->
                     navController.navigate(Screens.CharacterScreen.route + "?id=$id")
                 },
-                onSearchClicked = onSearchClicked
+                onSearchClicked = onSearchClicked,
             )
         }
         destination(
@@ -153,7 +153,7 @@ fun App() {
             ApplicationHomeScreen(
                 onSearchClicked = {
                     navController.navigate(Screens.SearchScreen.route)
-                }
+                },
             )
         }
         verticalDestination(Screens.SearchScreen.route) {
@@ -163,7 +163,33 @@ fun App() {
                         SearchScreenViewModel(RickyAndMortyApplication.app.charactersRepository())
                     },
                 )
-            SearchScreen(viewModel = searchScreenViewModel)
+            SearchScreen(
+                viewModel = searchScreenViewModel,
+                onCharacterClicked = { id ->
+                    navController.navigate(Screens.CharacterScreen.route + "?id=$id")
+                },
+            )
+        }
+        composable(
+            route = Screens.CharacterScreen.route + "?id={id}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.IntType
+                },
+            ),
+        ) { navBackStackEntry ->
+            val id = navBackStackEntry.arguments?.getInt("id") ?: 1
+            val characterScreenViewModel =
+                viewModel<SingleCharacterViewModel>(
+                    factory = viewModelFactory {
+                        SingleCharacterViewModel(RickyAndMortyApplication.app.charactersRepository())
+                    },
+                )
+            SingleCharacterScreen(
+                viewModel = characterScreenViewModel,
+                id = id,
+                navController = navController,
+            )
         }
     }
 }

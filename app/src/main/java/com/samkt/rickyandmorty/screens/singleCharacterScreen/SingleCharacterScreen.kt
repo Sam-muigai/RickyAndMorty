@@ -1,7 +1,7 @@
 package com.samkt.rickyandmorty.screens.singleCharacterScreen
 
-import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,14 +25,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.samkt.rickyandmorty.domain.model.CharacterInfo
 import com.samkt.rickyandmorty.screens.homeScreen.LoadingAnimation
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun SingleCharacterScreen(
@@ -35,7 +43,6 @@ fun SingleCharacterScreen(
     navController: NavHostController,
 ) {
     val state = viewModel.singleCharacterScreenStates.collectAsState().value
-    val context = LocalContext.current
     LaunchedEffect(
         key1 = true,
         block = {
@@ -52,7 +59,10 @@ fun SingleCharacterScreen(
         state.character?.let {
             CharacterScreenContent(
                 character = it,
-                context = context,
+                onBackClicked = {
+                    navController.popBackStack()
+                },
+
             )
         }
         state.errorMessage?.let {
@@ -66,18 +76,39 @@ fun SingleCharacterScreen(
 fun CharacterScreenContent(
     modifier: Modifier = Modifier,
     character: CharacterInfo,
-    context: Context,
+    onBackClicked: () -> Unit,
 ) {
     Scaffold(modifier = modifier) { paddingValues ->
         Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(character.image)
-                    .build(),
-                contentDescription = character.name,
-                modifier = Modifier.fillMaxWidth().height(270.dp),
-                contentScale = ContentScale.FillBounds,
-            )
+            Box(modifier = Modifier, contentAlignment = Alignment.Center) {
+                CoilImage(
+                    modifier = Modifier.fillMaxWidth()
+                        .height(270.dp)
+                        .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                        .blur(15.dp),
+                    imageModel = character.image,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
+                )
+                CoilImage(
+                    modifier = Modifier.size(150.dp).clip(RoundedCornerShape(8.dp))
+                        .border(1.dp, Color.Black, RoundedCornerShape(8.dp)),
+                    imageModel = character.image,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
+                    circularReveal = CircularReveal(duration = 1000),
+                )
+                FloatingActionButton(
+                    modifier = Modifier.size(50.dp).align(Alignment.TopStart).padding(8.dp),
+                    onClick = onBackClicked,
+                    shape = CircleShape,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Name: ${character.name}")
             Text(text = "Status: ${character.status}")

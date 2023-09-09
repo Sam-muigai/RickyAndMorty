@@ -29,11 +29,13 @@ import com.samkt.rickyandmorty.screens.homeScreen.components.CharacterCard
 @Composable
 fun SearchScreen(
     viewModel: SearchScreenViewModel,
+    onCharacterClicked: (Int) -> Unit
 ) {
     val state = viewModel.searchScreenState.collectAsState().value
     SearchScreenContent(
         state = state,
         onEvent = viewModel::onEvent,
+        onCharacterClicked = onCharacterClicked
     )
 }
 
@@ -43,6 +45,7 @@ fun SearchScreenContent(
     modifier: Modifier = Modifier,
     state: SearchScreenState,
     onEvent: (SearchScreenEvents) -> Unit,
+    onCharacterClicked:(Int)->Unit
 ) {
     Scaffold(modifier = modifier) { paddingValues ->
         Column(
@@ -82,7 +85,7 @@ fun SearchScreenContent(
                     ) {
                         CharacterCard(
                             characterInfo = it,
-                            onCharacteClick = {},
+                            onCharacterClick = onCharacterClicked,
                         )
                     }
                 },

@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -32,7 +31,6 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.samkt.rickyandmorty.R
 import com.samkt.rickyandmorty.domain.model.CharacterInfo
 import com.samkt.rickyandmorty.screens.homeScreen.components.CharacterCard
-import com.samkt.rickyandmorty.screens.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -103,7 +101,7 @@ fun ListCharacters(
                 item?.let {
                     CharacterCard(
                         characterInfo = it,
-                        onCharacteClick = onCharacterClick,
+                        onCharacterClick = onCharacterClick,
                     )
                 }
             }

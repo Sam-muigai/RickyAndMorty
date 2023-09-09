@@ -19,19 +19,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.samkt.rickyandmorty.R
 import com.samkt.rickyandmorty.domain.model.CharacterInfo
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun CharacterCard(
     modifier: Modifier = Modifier,
     characterInfo: CharacterInfo,
-    onCharacteClick: (Int) -> Unit,
+    onCharacterClick: (Int) -> Unit,
 ) {
     val context = LocalContext.current
     val color = when (characterInfo.status) {
@@ -41,20 +39,20 @@ fun CharacterCard(
     }
     Surface(
         modifier = modifier.width(120.dp).padding(8.dp).clickable {
-            onCharacteClick.invoke(characterInfo.id)
+            onCharacterClick.invoke(characterInfo.id)
         },
         shape = RoundedCornerShape(8.dp),
         color = Color(0xFF47aec4),
     ) {
         Column {
-            AsyncImage(
+            CoilImage(
                 modifier = Modifier.height(100.dp)
                     .padding(4.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                model = ImageRequest.Builder(context).data(characterInfo.image).build(),
-                placeholder = painterResource(id = R.drawable.placeholder),
+                imageModel = characterInfo.image,
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
+                circularReveal = CircularReveal(duration = 500),
             )
             Column(modifier = Modifier.padding(horizontal = 4.dp)) {
                 Text(

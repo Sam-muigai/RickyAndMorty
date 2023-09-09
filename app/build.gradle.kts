@@ -80,14 +80,23 @@ dependencies {
     // KotlinX Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
+    //Cloudy
+    implementation("com.github.skydoves:cloudy:0.1.2")
+
     // Paging 3.0
     implementation("androidx.paging:paging-compose:3.2.0")
 
     implementation("androidx.paging:paging-runtime-ktx:3.2.0")
 
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    //Coil
+    implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+    //Timber
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // Landscapist image loader
+    implementation("com.github.skydoves:landscapist-coil:1.4.9")
 
     // Lottie animation
     implementation("com.airbnb.android:lottie-compose:6.0.1")
